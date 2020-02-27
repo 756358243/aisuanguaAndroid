@@ -1,24 +1,24 @@
 package com.example.aisuangua;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnClickListener,OnPageChangeListener{
+import com.example.aisuangua.MyFragment.ShouYeFragment;
+import com.example.aisuangua.MyFragment.SuanMingFragment;
+import com.example.aisuangua.MyFragment.TiWenFragment;
+import com.example.aisuangua.MyFragment.WoDeFragment;
+import com.example.aisuangua.MyFragment.XuanShangFragment;
 
+public class MainActivity extends FragmentActivity implements OnClickListener {
     // 底部菜单4个Linearlayout
     private LinearLayout ll_home;
     private LinearLayout ll_address;
@@ -40,13 +40,12 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
     private TextView tv_setting;
     private TextView tv_tiwen;
 
-    // 中间内容区域
-    private ViewPager viewPager;
-
-    // ViewPager适配器ContentAdapter
-    private ContentAdapter adapter;
-
-    private List<View> views;
+    // 4个Fragment
+    private Fragment shouyeFragment;
+    private Fragment xuanshangFragment;
+    private Fragment tiwenFragment;
+    private Fragment suanmingFragment;
+    private Fragment wodeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,90 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
         initView();
         // 初始化底部按钮事件
         initEvent();
+        // 初始化并设置当前Fragment
+        initFragment(0);
 
+    }
+
+    private void initFragment(int index) {
+        // 由于是引用了V4包下的Fragment，所以这里的管理器要用getSupportFragmentManager获取
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        // 开启事务
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 隐藏所有Fragment
+        hideFragment(transaction);
+        switch (index) {
+            case 0:
+                if (shouyeFragment == null) {
+                    shouyeFragment = new ShouYeFragment();
+                    transaction.add(R.id.fl_content, shouyeFragment);
+                } else {
+                    transaction.show(shouyeFragment);
+                }
+                break;
+            case 1:
+                if (xuanshangFragment == null) {
+                    xuanshangFragment = new XuanShangFragment();
+                    transaction.add(R.id.fl_content, xuanshangFragment);
+                } else {
+                    transaction.show(xuanshangFragment);
+                }
+
+                break;
+            case 2:
+                if (tiwenFragment == null) {
+                    tiwenFragment = new TiWenFragment();
+                    transaction.add(R.id.fl_content, tiwenFragment);
+                } else {
+                    transaction.show(tiwenFragment);
+                }
+
+                break;
+            case 3:
+                if (suanmingFragment == null) {
+                    suanmingFragment = new SuanMingFragment();
+                    transaction.add(R.id.fl_content, suanmingFragment);
+                } else {
+                    transaction.show(suanmingFragment);
+                }
+
+                break;
+            case 4:
+                if (wodeFragment == null) {
+                    wodeFragment = new WoDeFragment();
+                    transaction.add(R.id.fl_content, wodeFragment);
+                } else {
+                    transaction.show(wodeFragment);
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
+        // 提交事务
+        transaction.commit();
+
+    }
+
+    //隐藏Fragment
+    private void hideFragment(FragmentTransaction transaction) {
+        if (shouyeFragment != null) {
+            transaction.hide(shouyeFragment);
+        }
+        if (xuanshangFragment != null) {
+            transaction.hide(xuanshangFragment);
+        }
+        if (tiwenFragment != null) {
+            transaction.hide(tiwenFragment);
+        }
+        if (suanmingFragment != null) {
+            transaction.hide(suanmingFragment);
+        }
+        if (wodeFragment != null) {
+            transaction.hide(wodeFragment);
+        }
     }
 
     private void initEvent() {
@@ -67,8 +149,6 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
         ll_friend.setOnClickListener(this);
         ll_setting.setOnClickListener(this);
         ll_tiwen.setOnClickListener(this);
-        //设置ViewPager滑动监听
-        viewPager.setOnPageChangeListener(this);
     }
 
     private void initView() {
@@ -85,146 +165,19 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
         this.iv_friend = (ImageView) findViewById(R.id.iv_friend);
         this.iv_setting = (ImageView) findViewById(R.id.iv_setting);
         this.iv_tiwen = (ImageView) findViewById(R.id.iv_tiwen);
+
         // 底部菜单4个菜单标题
         this.tv_home = (TextView) findViewById(R.id.tv_home);
         this.tv_address = (TextView) findViewById(R.id.tv_address);
         this.tv_friend = (TextView) findViewById(R.id.tv_friend);
         this.tv_setting = (TextView) findViewById(R.id.tv_setting);
         this.tv_tiwen = (TextView) findViewById(R.id.tv_tiwen);
-        // 中间内容区域ViewPager
-        this.viewPager = (ViewPager) findViewById(R.id.vp_content);
-
-        // 适配器
-        View page_01 = View.inflate(MainActivity.this, R.layout.page_01, null);
-
-        WebView webView= page_01.findViewById(R.id.webview_shouye);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setBlockNetworkImage(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        webView.loadUrl("https://www.aisuangua.com");
-        try {
-            Thread.currentThread().sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        webView.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //使用WebView加载显示url
-                view.loadUrl(url);
-                //返回true
-                return true;
-            }
-        });
-        View page_02 = View.inflate(MainActivity.this, R.layout.page_02, null);
-        WebView webView02= page_02.findViewById(R.id.webview_xuanshang);
-        webView02.getSettings().setJavaScriptEnabled(true);
-        webView02.getSettings().setBlockNetworkImage(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView02.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        webView02.loadUrl("https://www.aisuangua.com/smbaike/smbaikeInfo");
-        try {
-            Thread.currentThread().sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        webView02.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //使用WebView加载显示url
-                view.loadUrl(url);
-                //返回true
-                return true;
-            }
-        });
-
-        View page_03 = View.inflate(MainActivity.this, R.layout.page_03, null);
-        WebView webView03= page_03.findViewById(R.id.webview_tiwen);
-        webView03.getSettings().setJavaScriptEnabled(true);
-        webView03.getSettings().setBlockNetworkImage(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView03.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        webView03.loadUrl("https://www.aisuangua.com/smbaike/smbaikeTiwen");
-        try {
-            Thread.currentThread().sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        webView03.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //使用WebView加载显示url
-                view.loadUrl(url);
-                //返回true
-                return true;
-            }
-        });
-
-        View page_04 = View.inflate(MainActivity.this, R.layout.page_04, null);
-        WebView webView04= page_04.findViewById(R.id.webview_suanming);
-        webView04.getSettings().setJavaScriptEnabled(true);
-        webView04.getSettings().setBlockNetworkImage(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView04.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        webView04.loadUrl("https://www.aisuangua.com/sgj/suanguajie?pagenum=1");
-        try {
-            Thread.currentThread().sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        webView04.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //使用WebView加载显示url
-                view.loadUrl(url);
-                //返回true
-                return true;
-            }
-        });
-
-        View page_05 = View.inflate(MainActivity.this, R.layout.page_05, null);
-
-        WebView webView05= page_05.findViewById(R.id.webview_wode);
-        webView05.getSettings().setJavaScriptEnabled(true);
-        webView05.getSettings().setBlockNetworkImage(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView05.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        webView05.loadUrl("https://www.aisuangua.com");
-        try {
-            Thread.currentThread().sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        webView05.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //使用WebView加载显示url
-                view.loadUrl(url);
-                //返回true
-                return true;
-            }
-        });
-
-        views = new ArrayList<View>();
-        views.add(page_01);
-        views.add(page_02);
-        views.add(page_03);
-        views.add(page_04);
-        views.add(page_05);
-
-        this.adapter = new ContentAdapter(views);
-        viewPager.setAdapter(adapter);
 
     }
 
     @Override
     public void onClick(View v) {
+
         // 在每次点击后将所有的底部按钮(ImageView,TextView)颜色改为灰色，然后根据点击着色
         restartBotton();
         // ImageView和TetxView置为绿色，页面随之跳转
@@ -232,32 +185,30 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
             case R.id.ll_home:
                 iv_home.setImageResource(R.drawable.shouye_on);
                 tv_home.setTextColor(0xff1B940A);
-                viewPager.setCurrentItem(0);
+                initFragment(0);
                 break;
             case R.id.ll_address:
                 iv_address.setImageResource(R.drawable.xuanshang_on);
                 tv_address.setTextColor(0xff1B940A);
-                viewPager.setCurrentItem(1);
+                initFragment(1);
                 break;
-
             case R.id.ll_tiwen:
                 iv_tiwen.setImageResource(R.drawable.tiwen_on);
                 tv_tiwen.setTextColor(0xff1B940A);
-                viewPager.setCurrentItem(2);
+                initFragment(2);
                 break;
 
             case R.id.ll_friend:
                 iv_friend.setImageResource(R.drawable.zaixiansuanming_on);
                 tv_friend.setTextColor(0xff1B940A);
-                viewPager.setCurrentItem(3);
+                initFragment(3);
                 break;
+
             case R.id.ll_setting:
                 iv_setting.setImageResource(R.drawable.wode_on);
                 tv_setting.setTextColor(0xff1B940A);
-                viewPager.setCurrentItem(4);
+                initFragment(4);
                 break;
-
-
 
             default:
                 break;
@@ -269,10 +220,9 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
         // ImageView置为灰色
         iv_home.setImageResource(R.drawable.shouye_zc);
         iv_address.setImageResource(R.drawable.xuanshang_zc);
+        iv_tiwen.setImageResource(R.drawable.tiwen_zc);
         iv_friend.setImageResource(R.drawable.zaixiansuanming_zc);
         iv_setting.setImageResource(R.drawable.wode_zc);
-        iv_tiwen.setImageResource(R.drawable.tiwen_zc);
-
         // TextView置为白色
         tv_home.setTextColor(0xffffffff);
         tv_address.setTextColor(0xffffffff);
@@ -281,49 +231,6 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
         tv_tiwen.setTextColor(0xffffffff);
     }
 
-    @Override
-    public void onPageScrollStateChanged(int arg0) {
 
-    }
-
-    @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-    }
-
-    @Override
-    public void onPageSelected(int arg0) {
-        restartBotton();
-        //当前view被选择的时候,改变底部菜单图片，文字颜色
-        switch (arg0) {
-            case 0:
-                iv_home.setImageResource(R.drawable.shouye_on);
-                tv_home.setTextColor(0xff1B940A);
-                break;
-            case 1:
-                iv_address.setImageResource(R.drawable.xuanshang_on);
-                tv_address.setTextColor(0xff1B940A);
-                break;
-
-            case 2:
-                iv_tiwen.setImageResource(R.drawable.tiwen_on);
-                tv_tiwen.setTextColor(0xff1B940A);
-                break;
-
-            case 3:
-                iv_friend.setImageResource(R.drawable.zaixiansuanming_on);
-                tv_friend.setTextColor(0xff1B940A);
-                break;
-            case 4:
-                iv_setting.setImageResource(R.drawable.wode_on);
-                tv_setting.setTextColor(0xff1B940A);
-                break;
-
-
-            default:
-                break;
-        }
-
-    }
 
 }

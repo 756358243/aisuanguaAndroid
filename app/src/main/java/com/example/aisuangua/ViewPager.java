@@ -40,4 +40,15 @@ class ContentAdapter extends PagerAdapter {
         container.removeView(views.get(position));
     }
 
+
+    /**
+     * 跳转到每个页面都要执行的方法
+     */
+    @Override
+    public void setPrimaryItem(View container, int position, Object object) {
+        //把这个position赋值到一个全局变量，通过这个就会知道滑动到哪个页面了
+
+    }
+
+
 }

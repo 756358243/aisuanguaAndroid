@@ -1,0 +1,120 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+
+</head>
+<script src="../www/js/jquery.min.js"></script>
+<style>
+        #xuanshang_ul { padding:0px; list-style-type:none; }
+        #xuanshang_ul li{text-align:left; margin:0px; padding:0px; list-style-type:none;}
+        #xuanshang_ul img {padding-right:5px;}
+		a{ text-decoration:none;color: black;}
+		a:link {color:black}
+        a:hover {color:red}
+	</style>
+<body>
+
+<div style="width: 100%;">
+    <p class="refreshText" style="text-align:center"></p>
+    <ul id="xuanshang_ul" style="list-style-type:none">
+
+    </ul>
+</div>
+<div id="tets">
+
+
+</div>
+</body>
+
+
+<script>
+
+var mypage='1';
+
+window.onload = init();
+
+
+
+function getDate(mypage){
+  var rs = zp.ShouYeInit(mypage);
+  //先清空数据
+  $("#xuanshang_ul").find("li").remove();
+    $("#xuanshang_ul").find("hr").remove();
+
+   var obj = eval('(' + rs + ')');
+    ///$('#showtext').html(obj.code);
+    if(obj.code == '0'){
+       //查询数据成功了，进行首页展示
+       //$('#showtext').html(obj.code);
+       var list = obj.rs;
+       var flag = 0;
+       for(var i in list){
+         for(var j in list[i].tiezis){
+           var li = '<li><a href="#"><span>'+list[i].tiezis[j].quetitle+'</span><span style="color: red;font-size: 16px;">-'+list[i].tiezitypename+'</span><span>&nbsp;&nbsp;悬赏<font color="red">'+list[i].tiezis[j].queasgbi+'</font>币</span></a></li>'
+           li = li+'<hr/>';
+           $('#xuanshang_ul').append(li);
+           flag = flag +1;
+         }
+       }
+
+       if(flag>=list.length*10){
+       var p = Number(mypage)+1;
+       window.mypage = p+'';
+       }
+
+       //$('#tets').html(mypage);
+       zp.MyToast('查询成功！');
+    }else{
+      //查询数据失败了
+       zp.MyToast('网络错误或者服务器错误，请联系13133819941');
+    }
+}
+
+
+function init(){
+
+    getDate(mypage);
+
+}
+
+
+
+(function(window) {
+    var _element = document.getElementById('xuanshang_ul'),
+      _refreshText = document.querySelector('.refreshText'),
+      _startPos = 0,
+      _transitionHeight = 0;
+
+    _element.addEventListener('touchstart', function(e) {
+        _startPos = e.touches[0].pageY;
+        _element.style.position = 'relative';
+        _element.style.transition = 'transform 0s';
+    }, false);
+
+    _element.addEventListener('touchmove', function(e) {
+        _transitionHeight = e.touches[0].pageY - _startPos;
+
+        if (_transitionHeight > 0 && _transitionHeight < 60) {
+            _refreshText.innerText = '下拉刷新';
+            _element.style.transform = 'translateY('+_transitionHeight+'px)';
+
+            if (_transitionHeight > 55) {
+              _refreshText.innerText = '释放更新';
+            }
+        }
+    }, false);
+
+    _element.addEventListener('touchend', function(e) {
+        _element.style.transition = 'transform 0.5s ease 1s';
+        _element.style.transform = 'translateY(0px)';
+        _refreshText.innerText = '更新中...';
+        //获取数据
+        getDate(window.mypage);
+        _refreshText.innerText = '';
+
+    }, false);
+})(window);
+
+
+   </script>
+</html>

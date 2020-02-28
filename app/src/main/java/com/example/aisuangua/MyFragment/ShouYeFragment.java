@@ -23,7 +23,7 @@ public class ShouYeFragment extends Fragment {
         View view = inflater.inflate(R.layout.page_01, container, false);
         WebView webView = view.findViewById(R.id.webview_shouye);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new ShouYeJs(getContext()), "zp");
+        webView.addJavascriptInterface(new ShouYeJs(getContext(),this.getActivity()), "zp");
         webView.getSettings().setBlockNetworkImage(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);

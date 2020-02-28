@@ -17,7 +17,21 @@
 <div style="width: 100%;">
     <p class="refreshText" style="text-align:center"></p>
     <ul id="xuanshang_ul" style="list-style-type:none">
-
+        <li style="margin-top: 8px;">
+            <div style="margin-top: 8px;">
+                <img style="width:40px;height:40px;border-radius:50%;display:inline-block;vertical-align:middle;"  src="http://img1.imgtn.bdimg.com/it/u=561326960,1564995287&fm=11&gp=0.jpg">
+                <span style="font-size: 18px;height:40px;vertical-align: middle">未来风水大师</span>
+                <span style="margin-left: 5px;"><img style="width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:middle;" src="https://www.aisuangua.com/static/images/smbazike/rz.jpg"></span>
+            </div>
+            <div style="margin-top: 8px;">
+                类别：<span style="font-size: 18px;color: red;margin-right: 10px;">八字</span>
+                悬赏:<span style="font-size: 18px;color: red;">100</span>币
+            </div>
+            <div style="margin-top: 8px;">
+                <a href="#">戊戌生于丁酉，我投资医疗股票会挣钱吗？</a>
+            </div>
+            <hr/>
+        </li>
     </ul>
 </div>
 <div id="tets">
@@ -29,18 +43,33 @@
 
 <script>
 
-var mypage='1';
+//获取当前时间
+function getNowTime() {
+        var date = new Date();
+        this.year = date.getFullYear();
+        this.month = date.getMonth() + 1;
+        this.date = date.getDate();
+        this.hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        this.minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        this.second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        this.milliSeconds = date.getMilliseconds();
+        var currentTime = this.year+'-'+this.month + '-' + this.date + ' ' + this.hour + ':' + this.minute + ':' + this.second + '.' + this.milliSeconds;
+        return currentTime;
+    }
+
+
+
+var date = null;
 
 window.onload = init();
 
 
 
-function getDate(mypage){
-  var rs = zp.ShouYeInit(mypage);
+function getDate(date){
+  var rs = zp.ShouYeInit(date);
   //先清空数据
-  $("#xuanshang_ul").find("li").remove();
-    $("#xuanshang_ul").find("hr").remove();
-
+  //$("#xuanshang_ul").find("li").remove();
+   // $("#xuanshang_ul").find("hr").remove();
    var obj = eval('(' + rs + ')');
     ///$('#showtext').html(obj.code);
     if(obj.code == '0'){
@@ -48,19 +77,49 @@ function getDate(mypage){
        //$('#showtext').html(obj.code);
        var list = obj.rs;
        var flag = 0;
+      // var ylhtml = $('#xuanshang_ul').html();
        for(var i in list){
-         for(var j in list[i].tiezis){
-           var li = '<li><a href="#"><span>'+list[i].tiezis[j].quetitle+'</span><span style="color: red;font-size: 16px;">-'+list[i].tiezitypename+'</span><span>&nbsp;&nbsp;悬赏<font color="red">'+list[i].tiezis[j].queasgbi+'</font>币</span></a></li>'
-           li = li+'<hr/>';
-           $('#xuanshang_ul').append(li);
+           //默认的src地址
+           var touheadsrc = '../www/img/moren.png';
+           if(list[i].fsuser.headimg != null&&list[i].fsuser.headimg != ''){
+               touheadsrc = list[i].fsuser.headimg;
+           }
+           var li = "";
+           li+='<li style="margin-top: 8px;"  onclick="xs(\''+list[i].id+'\')">';
+           //li+='<a οnclick="xs('+list[i].id+')">';
+           li+='<div style="margin-top: 8px;">';
+           li+='<img style="width:40px;height:40px;border-radius:50%;display:inline-block;vertical-align:middle;"  src="'+touheadsrc+'">';
+           li+='<span style="font-size: 18px;height:40px;vertical-align: middle">'+list[i].fsuser.loginname+'</span>';
+           if(list[i].fsuser.groupid == '1'){
+           var rz = '../www/img/rz.jpg';
+           li+='<span style="margin-left: 5px;"><img style="width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:middle;" src="'+rz+'"></span>';
+           }
+           li+='</div>';
+           li+='<div style="margin-top: 8px;">';
+           li+='类别：<span style="font-size: 18px;color: red;margin-right: 10px;">'+list[i].tiezitype.tiezitypename+'</span>';
+           li+='悬赏:<span style="font-size: 18px;color: red;">'+list[i].queasgbi+'</span>币';
+           li+='</div>';
+           li+='<div style="margin-top: 8px;">';
+           li+='问题：<span style="font-size: 18px;">'+list[i].quetitle+'</span>';
+           li+='</div>';
+           //li+='</a>';
+           li+='<hr/>';
+           li+='</li>';
+
+          // var li = '<li><a href="#"><span>'+list[i].quetitle+'</span><span style="color: red;font-size: 16px;">-'+list[i].tiezitype.tiezitypename+'</span><span>&nbsp;&nbsp;悬赏<font color="red">'+list[i].queasgbi+'</font>币</span></a></li>'
+          // li = li+'<hr/>';
+
+
+
+
+           $('#xuanshang_ul').html(li+$('#xuanshang_ul').html());
            flag = flag +1;
-         }
        }
 
-       if(flag>=list.length*10){
-       var p = Number(mypage)+1;
-       window.mypage = p+'';
-       }
+
+       //var p = Number(mypage)+flag;
+       //window.mypage = p+'';
+        window.date = getNowTime();
 
        //$('#tets').html(mypage);
        zp.MyToast('查询成功！');
@@ -73,10 +132,14 @@ function getDate(mypage){
 
 function init(){
 
-    getDate(mypage);
+    getDate(date);
 
 }
 
+
+function xs(id){
+ zp.Xuanshang(id);
+}
 
 
 (function(window) {
@@ -98,8 +161,10 @@ function init(){
             _refreshText.innerText = '下拉刷新';
             _element.style.transform = 'translateY('+_transitionHeight+'px)';
 
-            if (_transitionHeight > 55) {
+            if (_transitionHeight > 38) {
               _refreshText.innerText = '释放更新';
+              //获取数据
+             getDate(window.date);
             }
         }
     }, false);
@@ -108,12 +173,13 @@ function init(){
         _element.style.transition = 'transform 0.5s ease 1s';
         _element.style.transform = 'translateY(0px)';
         _refreshText.innerText = '更新中...';
-        //获取数据
-        getDate(window.mypage);
+
         _refreshText.innerText = '';
 
     }, false);
 })(window);
+
+
 
 
    </script>

@@ -2,4 +2,6 @@
     <string name="app_name">aisuangua</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_xuan_shang">XuanShangActivity</string>
+    <string name="title_activity_Login">LoginActivity</string>
+    <string name="remember_password">记住密码</string>
 </resources>

@@ -18,6 +18,10 @@
             android:label="@string/title_activity_xuan_shang"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_Login"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">

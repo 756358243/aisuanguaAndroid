@@ -1,6 +1,8 @@
 package com.example.aisuangua.myUtils;
 import android.util.Log;
 
+import com.example.aisuangua.myInterceptor.LoggerInterceptor;
+
 import okhttp3.*;
 
 import java.net.URLEncoder;
@@ -28,6 +30,7 @@ public class OkHttpUtils {
                 .connectTimeout(10, TimeUnit.SECONDS)//10秒连接超时
                 .writeTimeout(10, TimeUnit.SECONDS)//10m秒写入超时
                 .readTimeout(10, TimeUnit.SECONDS)//10秒读取超时
+                .addInterceptor(new LoggerInterceptor())
                 .build();
     }
 

@@ -52,6 +52,7 @@ public class ShouYeJs{
     public void Xuanshang(final String id) {
 
         Intent intent = new Intent(activity, XuanShangActivity.class);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 }

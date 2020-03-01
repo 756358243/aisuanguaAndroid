@@ -3,13 +3,152 @@
     <meta charset="utf-8"/>
 
 </head>
+<script src="../www/js/jquery.min.js"></script>
+<script src="../www/js/MyAllDate.js"></script>
+
+
 <body>
-我是张萍
+<div style="width: 98%;margin-left:1%;margin-right:1%;">
+    <div style="border:2px solid #a1a1a1;border-radius:25px;padding-left: 8px;padding-top: 8px;padding-bottom:8px;padding-right: 8px;">
+        <div id="title"></div>
+        <div style="margin-top: 10px;">
+            发布时间：<span style="margin-right: 10px;color: red;" id="fabutime"></span>
+            悬赏：<span style="color: red;" id="asgbi"></span>币
+        </div>
+        <div style="margin-top: 10px;">
+            发布者：<span style="margin-right: 10px;color: red;" id="fabuzhe"></span>
+            提问类别：<span style="color: red;" id="bazileibie"></span>
+            采纳状态：<span style="color: red;">未采纳</span>
+        </div>
+        <div style="margin-top: 10px;">
+            问题描述：<span style="white-space:pre-line;" id="tiezidesc">
+               	</span>
+        </div>
+    </div>
+
+
+    <div  id="allanswer">
+
+
+    </div>
+
+</div>
+
+<div id="showtext">
+
+</div>
 
 </body>
+<script type="text/javascript">
+  function loadXSDeails(id){
 
 
-<script>
+       var baseurl = getbaseurl();
 
-   </script>
+        $.ajax({
+        url: baseurl+"/smbaikeAPP/getXSDeails?id="+id,
+        type: "Post",
+        //data: JSON.stringify(o),
+        contentType:"application/json",
+        dataType: "JSON",
+        async: true,
+        success: function (rs) {
+           if(rs.code == 0){
+              document.getElementById("title").innerHTML = rs.rs.quetitle;
+              //fabutime
+              document.getElementById("fabutime").innerHTML = rs.rs.quefabutime;
+              //asgbi
+             document.getElementById("asgbi").innerHTML = rs.rs.queasgbi;
+             //fabuzhe
+             document.getElementById("fabuzhe").innerHTML = rs.rs.fauser.loginname;
+             //tiezidesc
+             document.getElementById("tiezidesc").innerHTML = rs.rs.quecontent;
+             //bazileibie
+             document.getElementById("bazileibie").innerHTML = rs.rs.tiezitype.tiezitypename;
+           }else{
+            document.getElementById("title").innerHTML = rs.code;
+           }
+
+        },
+        error: function () {
+            alert("操作异常，请联系客服");
+        }
+    });
+
+    //定义全局对默认头像
+    var touheadsrc = '../www/img/moren.png';
+    var rz = '../www/img/rz.jpg';
+
+    //获取评论的数据
+  $.ajax({
+        url: baseurl+"/smbaikeAPP/getXSAnserDeails?id="+id,
+        type: "Post",
+        //data: JSON.stringify(o),
+        contentType:"application/json",
+        dataType: "JSON",
+        async: true,
+        success: function (rs) {
+           if(rs.code == 0){
+              for(i in rs.rs){
+                  if(rs.rs[i].fasonguser.headimg != null&&rs.rs[i].fasonguser.headimg != ''){
+                      touheadsrc = rs.rs[i].fasonguser.headimg;
+                   }
+                  //进行回答拼接
+                  var oneanwser = "";
+                  oneanwser += '<div style="margin-top:10px;border:2px solid #a1a1a1;border-radius:25px;padding-left: 8px;padding-top: 8px;padding-bottom:8px;padding-right: 8px;">';
+                  oneanwser +='<div style="margin-top: 8px;">';
+                  oneanwser +='<img style="width:40px;height:40px;border-radius:50%;display:inline-block;vertical-align:middle;"  src="'+touheadsrc+'">';
+                  oneanwser +='<span style="font-size: 18px;height:40px;vertical-align: middle">'+rs.rs[i].fasonguser.loginname+'</span>';
+
+                  if(rs.rs[i].fasonguser.groupid == '1'){
+                  oneanwser +='<span style="margin-left: 5px;"><img style="width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:middle;" src="'+rz+'"></span>';
+                 }
+                  oneanwser +='</div>';
+                  oneanwser +='<div style="margin-top: 8px;">';
+                  oneanwser +='<span style="white-space:pre-line">'+rs.rs[i].answersendcont+'</span>';
+                  oneanwser +='</div>';
+                  oneanwser +='<div style="margin-top: 8px;">';
+                  oneanwser +='发送时间：<span>'+rs.rs[i].answersendtime+'</span>';
+                  oneanwser +='</div>';
+
+                  var an = rs.rs[i].erjianswers;
+
+                  for(j in an){
+                     oneanwser +='<div id="sonanwser" style="width: 100%;">';
+                     oneanwser +='<div style="background-color: beige;margin-top: 8px;">';
+                     oneanwser +='<span style="font-size: 14px;height:32px;vertical-align: middle">'+an[j].fasonguser.loginname+'</span>';
+
+                    if(an[j].fasonguser.groupid == '1'){
+                     oneanwser +='<span style=""><img style="margin-right: 5px;width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:middle;" src="'+rz+'"></span>';
+                    }
+                     oneanwser +='对<span style="margin-left: 5px;font-size: 14px;height:32px;vertical-align: middle">'+an[j].jieshouuser.loginname+'</span>';
+                     if(an[j].jieshouuser.groupid == '1'){
+                     oneanwser +='<span><img style="margin-right:5px;width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:middle;" src="'+rz+'"></span>';
+                      }
+                     oneanwser +='说：<br/>';
+                     oneanwser +='<span style="white-space:pre-line;font-size: 14px">'+an[j].answersendcont+'</span>';
+                     oneanwser +='</div>';
+                     oneanwser +=' </div>';
+                  }
+                  oneanwser +='</div>';
+                  $('#allanswer').html(oneanwser+$('#allanswer').html());
+              }
+
+           }else{
+            document.getElementById("title").innerHTML = rs.code;
+           }
+
+        },
+        error: function () {
+            alert("操作异常，请联系客服");
+        }
+    });
+
+
+
+
+   }
+
+</script>
+
 </html>

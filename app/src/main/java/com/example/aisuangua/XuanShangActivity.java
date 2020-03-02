@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,6 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.aisuangua.andoridJs.ShouYeJs;
 import com.example.aisuangua.myUtils.JsonResult;
 import com.example.aisuangua.myUtils.OkHttpUtils;
+import com.example.aisuangua.myUtils.StringUtils;
 import com.example.aisuangua.myUtils.ToastUtils;
 import com.example.aisuangua.pojo.Tiezianswer;
 import com.example.aisuangua.pojo.User;
@@ -33,6 +35,12 @@ import java.util.Map;
 public class XuanShangActivity extends Activity {
 
     private WebView webView;
+
+    public String giveanswerid;
+
+    public String giveuserid;
+
+    public String username;
 
     @SuppressLint("JavascriptInterface")
     @Override
@@ -55,6 +63,7 @@ public class XuanShangActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
+        webView.addJavascriptInterface(new Xuanshangjs(), "xuanshang");
         //webView.loadUrl("javascript:javacalljs()");
         //webView.loadUrl("javascript:javacalljswith(" + "'Android传过来的参数'" + ")");
         webView.loadUrl("file:///android_asset/www/xsDeails.html");
@@ -67,6 +76,9 @@ public class XuanShangActivity extends Activity {
         });
 
         Button fasong = findViewById(R.id.btn_confirm);
+        TextView giveshui = findViewById(R.id.giveusername);
+        giveshui.setText("回复：贴主");
+
 
         //发送的点击事件
         fasong.setOnClickListener(new View.OnClickListener() {
@@ -75,8 +87,8 @@ public class XuanShangActivity extends Activity {
                  //先判断是否登录了，没有登录则需要登录
                 SharedPreferences spf = getSharedPreferences("user", Context.MODE_PRIVATE);
                 //获取是否登录
-                String islogin = spf.getString("islogin","");
-                if("".equals(islogin)){
+                String user = spf.getString("loginuser", "");
+                if("".equals(user)){
                     //进行跳转到登录到页面
                     Intent intent = new Intent(v.getContext(), LoginActivity.class);
                     startActivity(intent);
@@ -84,18 +96,22 @@ public class XuanShangActivity extends Activity {
                     EditText fsxiaoxi = findViewById(R.id.et_discuss);
                     String pl = fsxiaoxi.getText().toString();
                     ToastUtils.showToast(XuanShangActivity.this, pl);
-                    String user = spf.getString("loginuser", "");
                     User u = JSON.parseObject(user, User.class);
                     //进行发送信息
                     Tiezianswer answer = new Tiezianswer();
                     //发送信息的数据拼接
                     answer.setTieziid(id);
+                    if(!StringUtils.isStrEmpty(giveuserid)&&!StringUtils.isStrEmpty(giveanswerid)){
+                        answer.setAnswerjuserid(giveuserid);
+                        answer.setAnswertwojiid(giveanswerid);
+                        answer.setAnswerjibie("2");
+                    }
                     answer.setAnswerfuserid(u.getId());
                     answer.setAnswersendcont(pl);
                     Map<String, String> params = new HashMap<>();
                     String answerString = JSON.toJSONString(answer);
                     params.put("tiezianwer", answerString);
-                    String rs = OkHttpUtils.getInstance().doPostForm("http://192.168.43.37:8080/smbaikeAPP/Tiezianswer", params);
+                    String rs = OkHttpUtils.getInstance().doPostForm("/smbaikeAPP/Tiezianswer", params);
                     JsonResult obj = JSON.parseObject(rs, JsonResult.class);
                     //发送成功
                     if ("0".equals(obj.getCode())) {
@@ -116,6 +132,22 @@ public class XuanShangActivity extends Activity {
     protected void onResume() {
         super.onResume();
         onCreate(null);
+    }
+
+
+
+    public class Xuanshangjs{
+        @JavascriptInterface
+        public void givewhoAnswer(String answerid,String userid,String loginname){
+            giveanswerid =answerid;
+            giveuserid = userid;
+            username = loginname;
+            //giveusername
+            TextView giveshui = findViewById(R.id.giveusername);
+            if(username!=null&&username!="") {
+                giveshui.setText("回复："+username);
+            }
+        }
     }
 
 }

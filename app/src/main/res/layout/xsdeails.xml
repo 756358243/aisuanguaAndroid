@@ -11,8 +11,30 @@
         android:id="@+id/xuanshang_content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="38dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/cardview_light_background"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/giveusername"
+            android:textColor="@color/bbutton_danger_disabled_edge"
+            android:layout_marginBottom="50dp"
+            android:layout_width="100dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColorHint="#a2a2a2"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +42,7 @@
         android:background="@color/cardview_light_background"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
+
         <EditText
             android:id="@+id/et_discuss"
             android:layout_width="0dp"
@@ -30,17 +53,16 @@
             android:layout_marginRight="7dp"
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
             android:ellipsize="end"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="bottom"
             android:singleLine="true" />
         <Button
             android:id="@+id/btn_confirm"
             android:text="发送"
             android:textSize="16sp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="bottom"
             android:textColorHint="#b7b7b7"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/design_default_color_primary"
             android:gravity="center"
             android:layout_width="80dp"
             android:layout_height="38dp"/>

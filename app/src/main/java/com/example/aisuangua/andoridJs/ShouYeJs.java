@@ -35,7 +35,7 @@ public class ShouYeJs{
             starttime = "start";
         }
         params.put("starttime",starttime);
-        String rs =OkHttpUtils.getInstance().doPostForm("http://192.168.43.37:8080/smbaikeAPP/smbaikeappInfo",params);
+        String rs =OkHttpUtils.getInstance().doPostForm("/smbaikeAPP/smbaikeappInfo",params);
         //String rs = OkHttpUtils.getInstance().doGet("http://192.168.43.37:8080/smbaikeAPP/smbaikeappInfo?start="+start);
         System.out.println(rs);
         return rs;

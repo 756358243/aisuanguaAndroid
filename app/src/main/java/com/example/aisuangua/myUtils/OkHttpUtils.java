@@ -24,6 +24,7 @@ public class OkHttpUtils {
     private static final byte[] LOCKER = new byte[0];
     private static OkHttpUtils instance;
     private OkHttpClient okHttpClient;
+    private static String baseurl = "http://192.168.43.37:8080";
 
     private OkHttpUtils() {
         okHttpClient = new OkHttpClient.Builder()
@@ -104,6 +105,7 @@ public class OkHttpUtils {
     }
 
     private Request getRequestForPostJson(String url, String json) {
+        url = baseurl+url;
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         Request request = new Request.Builder()
                 .url(url)
@@ -114,6 +116,7 @@ public class OkHttpUtils {
 
 
     private Request getRequestForPostForm(String url, Map<String, String> params) {
+        url = baseurl+url;
         if (params == null) {
             params = new HashMap<>();
         }
@@ -132,6 +135,7 @@ public class OkHttpUtils {
     }
 
     private Request getRequestForGet(String url, HashMap<String, String> params) {
+        url = baseurl+url;
         Request request = new Request.Builder()
                 .url(getUrlStringForGet(url, params))
                 .build();
@@ -139,6 +143,7 @@ public class OkHttpUtils {
     }
 
     private Request getRequestForGet(String url) {
+        url = baseurl+url;
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -146,6 +151,7 @@ public class OkHttpUtils {
     }
 
     private String getUrlStringForGet(String url, HashMap<String, String> params) {
+        url = baseurl+url;
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append(url);
         urlBuilder.append("?");

@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<style>
+	    body{background: #f2f7ff;}
+		.set-content>div{background: white;margin-top: 0.5rem;}
+		.set-content>div div{height: 3rem;line-height: 3rem;border-bottom: 1px solid #f2f7ff;}
+		.set-content>div div span{margin-left: 0.5rem;font-size: 1rem;}
+		.set-content>div div span:nth-child(3){float: right;width: 60%;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;text-align: right;font-size: 0.65rem;}
+		.set-content>div div a{color: black;text-decoration: none;}
+		.set-content>div div img{width: 2rem;height: 2rem;border-radius: 2rem;float: right;margin:0.25rem}
+		.small{width: 1rem !important;height: auto !important;margin-top: 0.75rem !important;}
+		.zhuxiao{position: fixed;bottom: 0;width: 100%;font-size: 0.8rem;text-align: center;height: 2.5rem;line-height: 2.5rem;color: red;background: white;}
+					
+	</style>
+	<body>
+				<div class="set-content">
+			<div>
+				<div>
+					<a href="#"><span>账号管理</span>
+					<img id="touxiang" src="../www/img/moren.png" ></a>
+				</div>
+				<div>
+					<a href="#"><span>账号安全</span>
+					<img class="small" src="../www/img/jiantou-right.png" ></a>
+				</div>
+			</div>
+			<div>
+				<div>
+					<a href="#">
+					<span>消息设置</span>
+					<img class="small" src="../www/img/jiantou-right.png" ></a>
+				</div>
+				<div>
+					<a href="#">
+					<span>隐私设置</span>
+					<img class="small" src="../www/img/jiantou-right.png" ></a>
+				</div>
+				<div>
+					<a href="#">
+					<span>通用设置</span>
+					<img class="small" src="../www/img/jiantou-right.png" ></a>
+				</div>
+			</div>
+			<div>
+				<div>
+					<a href="#">
+					<span>清除缓存</span>
+					<img class="small" src="../www/img/jiantou-right.png" ></a>
+				</div>
+			</div>
+		</div>
+		<div class="zhuxiao" onclick="logout()">
+			退出当前登录
+		</div>
+	</body>
+
+<script>
+	window.onload = init();
+
+
+	//判断对象是否为空
+	function isEmpty(obj) {
+    // 检验 undefined 和 null
+    if (!obj && obj !== 0 && obj !== '') {
+        return true;
+    }
+    if (Array.prototype.isPrototypeOf(obj) && obj.length === 0) {
+        return true;
+    }
+    if (Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length === 0) {
+        return true;
+    }
+    return false;
+}
+
+	function init(){
+        var user = wodejs.myuser();
+        var myuser = eval('(' + user + ')');
+        if(!isEmpty(myuser)){
+           //touxiang
+           if(isEmpty(myuser.headimg)){
+              document.getElementById("touxiang").src = '../www/img/moren.png';
+           }else{
+              document.getElementById("touxiang").src = myuser.headimg;
+
+           }
+        }else{
+
+        }
+	}
+
+
+
+	//推出登录
+	function logout(){
+	   wodejs.logout();
+	}
+</script>
+
+</html>

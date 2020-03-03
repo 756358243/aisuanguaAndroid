@@ -10,7 +10,7 @@
 <body>
 <div style="width: 98%;margin-left:1%;margin-right:1%;">
     <div style="border:2px solid #a1a1a1;border-radius:25px;padding-left: 8px;padding-top: 8px;padding-bottom:8px;padding-right: 8px;">
-        <div id="title"></div>
+        <div  id="title"></div>
         <div style="margin-top: 10px;">
             发布时间：<span style="margin-right: 10px;color: red;" id="fabutime"></span>
             悬赏：<span style="color: red;" id="asgbi"></span>币
@@ -112,7 +112,7 @@ function givetouserid(userid,answerid,username){
                  }
                   oneanwser +='</div>';
                   oneanwser +='<div style="margin-top: 8px;">';
-                  oneanwser +='<span style="white-space:pre-line">'+rs.rs[i].answersendcont+'</span>';
+                  oneanwser +='<span style="display:inline-block;width:90%;word-wrap:break-word;white-space:normal;">'+rs.rs[i].answersendcont+'</span>';
                   oneanwser +='</div>';
                   oneanwser +='<div style="margin-top: 8px;">';
                   oneanwser +='发送时间：<span>'+rs.rs[i].answersendtime+'</span>';

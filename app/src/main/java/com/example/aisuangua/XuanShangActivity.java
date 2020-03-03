@@ -77,6 +77,8 @@ public class XuanShangActivity extends Activity {
 
         Button fasong = findViewById(R.id.btn_confirm);
         TextView giveshui = findViewById(R.id.giveusername);
+        giveuserid = "";
+        giveanswerid = "";
         giveshui.setText("回复：贴主");
 
 

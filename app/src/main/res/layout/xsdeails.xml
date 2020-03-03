@@ -11,7 +11,7 @@
         android:id="@+id/xuanshang_content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="100dp"
         android:layout_marginTop="38dp" />
 
     <LinearLayout

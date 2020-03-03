@@ -188,7 +188,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 initFragment(0);
                 break;
             case R.id.ll_address:
-                iv_address.setImageResource(R.drawable.xuanshang_on);
+                iv_address.setImageResource(R.drawable.rili_on);
                 tv_address.setTextColor(0xff1B940A);
                 initFragment(1);
                 break;
@@ -219,7 +219,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private void restartBotton() {
         // ImageView置为灰色
         iv_home.setImageResource(R.drawable.shouye_zc);
-        iv_address.setImageResource(R.drawable.xuanshang_zc);
+        iv_address.setImageResource(R.drawable.rili_zc);
         iv_tiwen.setImageResource(R.drawable.tiwen_zc);
         iv_friend.setImageResource(R.drawable.zaixiansuanming_zc);
         iv_setting.setImageResource(R.drawable.wode_zc);

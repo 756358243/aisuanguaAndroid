@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../www/js/jquery.min.js"></script>
+<style>
+		body,
+		div,
+		fieldset,
+		form,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		img,
+		li,
+		ol,
+		p,
+		table,
+		td,
+		tr,
+		ul {
+			border: 0 none;
+			font-family: "Microsoft Yahei", Verdana, Arial, Helvetica, sans-serif;
+			font-feature-settings: inherit;
+			font-kerning: inherit;
+			font-language-override: inherit;
+			font-size: inherit;
+			font-size-adjust: inherit;
+			font-stretch: inherit;
+			font-style: inherit;
+			font-synthesis: inherit;
+			font-variant: inherit;
+			font-weight: inherit;
+			line-height: inherit;
+			margin: 0;
+			padding: 0;
+			vertical-align: baseline;
+		}
+		
+		.smart-green {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 100%;
+			background: #F8F8F8;
+			padding: 30px 30px 20px 30px;
+			font: 12px Arial, Helvetica, sans-serif;
+			color: #666;
+			border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+		}
+		
+		.smart-green h1 {
+			font: 24px "Trebuchet MS", Arial, Helvetica, sans-serif;
+			padding: 20px 0px 20px 40px;
+			display: block;
+			margin: -30px -30px 10px -30px;
+			color: #FFF;
+			background: #9DC45F;
+			text-shadow: 1px 1px 1px #949494;
+			border-radius: 5px 5px 0px 0px;
+			-webkit-border-radius: 5px 5px 0px 0px;
+			-moz-border-radius: 5px 5px 0px 0px;
+			border-bottom: 1px solid #89AF4C;
+		}
+		
+		.smart-green span {
+			margin-top: 20px;
+		}
+		
+		.smart-green input[type="text"],
+		.smart-green input[type="email"],
+		.smart-green textarea,
+		.smart-green select {
+			color: #555;
+			height: 30px;
+			line-height: 15px;
+			width: 100%;
+			padding: 0px 0px 0px 10px;
+			margin-top: 2px;
+			border: 1px solid #E5E5E5;
+			background: #FBFBFB;
+			outline: 0;
+			-webkit-box-shadow: inset 1px 1px 2px rgba(238, 238, 238, 0.2);
+			box-shadow: inset 1px 1px 2px rgba(238, 238, 238, 0.2);
+			font: normal 14px/14px Arial, Helvetica, sans-serif;
+		}
+		
+		.smart-green textarea {
+			height: 150px;
+			padding-top: 10px;
+		}
+		
+		.smart-green .button {
+			background-color: #9DC45F;
+			border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-border-radius: 5px;
+			border: none;
+			padding: 10px 25px 10px 25px;
+			color: #FFF;
+			text-shadow: 1px 1px 1px #949494;
+		}
+		
+		.smart-green label {
+			display: block;
+			margin-top: 10px;
+			margin-left: 1%;
+		}
+	</style>
+
+<body>
+<div class="main">
+    <div class="contentmain">
+        <form action="" method="post" class="smart-green">
+            <h1>提出问题
+                <br/>
+                <span style="color: red">1.注册登录后才能发悬赏---请登录</span>
+                <br/>
+                <span style="color: red">2.发帖完会以邮件和短信的形式通知大师解答，放心发帖！</span>
+                <br/>
+                <span style="color: red">3.出现任何问题可联系客户，全额退款！</span>
+            </h1>
+            <label>
+                <span style="font-size: 18px;color: red">*问题简介:</span>
+                <input id="biaoti" type="text" placeholder = "一个可以吸引预测师的标题，40字内" />
+            </label>
+            <label>
+                <span style="font-size: 18px;color: red">*请说明您要咨询的问题:</span>
+                <textarea id="tiezimessage" name="message" placeholder="[基本要求：性别，提供阴（阳）历年月日时分，出生地，居住地,试着将问题尽可能清晰详尽的描述出来，这样大师们才能更完整更高质量的为您解答。]"></textarea>
+            </label>
+            <label>
+                <span style="font-size: 18px;color: red">*问题类别:</span><select id="tiezitypeid" name="selection" >
+                <option value="1">八字</option>
+                <option value="2">奇门</option>
+                <option value="3">起名</option>
+                <option value="4">六爻</option>
+                <option value="5">紫薇</option>
+                <option value="6">看相</option>
+                <option value="7">风水</option>
+                <option value="8">心理</option>
+            </select>
+            </label>
+            <label>
+                <span style="font-size: 18px;color: red">*资金选择:</span><select id="tieziasgsum" name="selection">
+                <option value=18>18提问，随机专业大师会帮忙解答，约500字内</option>
+                <option value=100>100爱算卦币，3-4位专业大师会帮忙解答，约1000-2000字</option>
+                <option value=50>50爱算卦币，1-3位专业大师会帮忙解答，约500-1500字</option>
+                <option value=1500>1500爱算卦币，置顶一个月，不准不要钱</option>
+                <option value=500>500爱算卦币，10-20位专业大师会帮忙解答，约3000-5000字</option>
+                <option value=300>300爱算卦币，8-9位专业大师会帮忙解答，约2000-3000字</option>
+                <option value=200>200爱算卦币，5-6位专业大师会帮忙解答，约1500-2500字</option>
+            </select>
+            </label>
+            <label>
+                <span>&nbsp;</span>
+                <input type="button" class="button" onclick="fabutiezi()" value="发布" />
+            </label>
+        </form>
+
+    </div>
+</body>
+<script>
+		function fabutiezi() {
+            //获取对应的参数值
+            var biaoti = $('#biaoti').val();
+            if(biaoti == "" || biaoti == null){
+                alert("问题简介不能为空！")
+                return;
+            }
+            //tiezimessage
+            var tiezimessage = $('#tiezimessage').val();
+            if(tiezimessage == "" || tiezimessage == null){
+                alert("请说明您要咨询的问题不能为空！")
+                return;
+            }
+            //tiezitypeid
+            var tiezitypeid = $('#tiezitypeid').val();
+            //tieziasgsum
+            var tieziasgsum = $('#tieziasgsum').val();
+
+
+
+            fabuwenti(biaoti,tiezimessage,tiezitypeid,tieziasgsum);
+
+        }
+
+        function fabuwenti(biaoti,quecontent,tiezitypeid,queasgbi){
+          tiwen.fabuwenti(biaoti,quecontent,tiezitypeid,queasgbi);
+        }
+
+
+	</script>
+
+</html>

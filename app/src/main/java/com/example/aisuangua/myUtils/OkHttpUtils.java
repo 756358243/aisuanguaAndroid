@@ -24,7 +24,7 @@ public class OkHttpUtils {
     private static final byte[] LOCKER = new byte[0];
     private static OkHttpUtils instance;
     private OkHttpClient okHttpClient;
-    private static String baseurl = "http://192.168.43.37:8080";
+    private static String baseurl = "https://www.aisuangua.com";
 
     private OkHttpUtils() {
         okHttpClient = new OkHttpClient.Builder()

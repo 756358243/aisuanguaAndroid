@@ -110,10 +110,10 @@ public class XuanShangActivity extends Activity {
                     }
                     answer.setAnswerfuserid(u.getId());
                     answer.setAnswersendcont(pl);
-                    Map<String, String> params = new HashMap<>();
+                    Map<String, Object> params = new HashMap<>();
                     String answerString = JSON.toJSONString(answer);
-                    params.put("tiezianwer", answerString);
-                    String rs = OkHttpUtils.getInstance().doPostForm("/smbaikeAPP/Tiezianswer", params);
+                    //params.put("tiezianwer", answer);
+                    String rs = OkHttpUtils.getInstance().doPostJson("/smbaikeAPP/Tiezianswer", answerString);
                     JsonResult obj = JSON.parseObject(rs, JsonResult.class);
                     //发送成功
                     if ("0".equals(obj.getCode())) {

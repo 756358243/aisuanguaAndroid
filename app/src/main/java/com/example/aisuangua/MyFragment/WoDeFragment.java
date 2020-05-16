@@ -16,6 +16,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.aisuangua.LoginActivity;
+import com.example.aisuangua.MainActivity;
 import com.example.aisuangua.R;
 import com.example.aisuangua.andoridJs.ShouYeJs;
 
@@ -25,7 +26,7 @@ public class WoDeFragment extends Fragment {
         View view = inflater.inflate(R.layout.page_05, container, false);
         WebView webView = view.findViewById(R.id.webview_wode);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new Wodejs(), "wodejs");
+        webView.addJavascriptInterface(new Wodejs(view), "wodejs");
         webView.getSettings().setBlockNetworkImage(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -38,6 +39,12 @@ public class WoDeFragment extends Fragment {
 
 
     public class Wodejs{
+        public  View v;
+
+        public Wodejs(View v){
+            this.v = v;
+        }
+
         @JavascriptInterface
         public String myuser(){
           //获取对于的存储的数据
@@ -58,7 +65,7 @@ public class WoDeFragment extends Fragment {
             SharedPreferences spf = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
             spf.edit().clear();
             spf.edit().commit();
-            Intent intent = new Intent(getContext(), LoginActivity.class);
+            Intent intent = new Intent(v.getContext(), LoginActivity.class);
             startActivity(intent);
         }
     }

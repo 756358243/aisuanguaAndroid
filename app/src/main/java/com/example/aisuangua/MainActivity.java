@@ -224,11 +224,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         iv_friend.setImageResource(R.drawable.zaixiansuanming_zc);
         iv_setting.setImageResource(R.drawable.wode_zc);
         // TextView置为白色
-        tv_home.setTextColor(0xffffffff);
-        tv_address.setTextColor(0xffffffff);
-        tv_friend.setTextColor(0xffffffff);
-        tv_setting.setTextColor(0xffffffff);
-        tv_tiwen.setTextColor(0xffffffff);
+        tv_home.setTextColor(0xff000000);
+        tv_address.setTextColor(0xff000000);
+        tv_friend.setTextColor(0xff000000);
+        tv_setting.setTextColor(0xff000000);
+        tv_tiwen.setTextColor(0xff000000);
     }
 
 

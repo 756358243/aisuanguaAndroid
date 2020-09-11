@@ -1,0 +1,144 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+
+</head>
+<script src="../www/js/jquery.min.js"></script>
+<script src="../www/js/MyAllDate.js"></script>
+
+
+<body>
+<div style="width: 90%;height: 80px;margin-left: 5%;margin-top: 20px">
+    <div style="margin-top: 8px">标题:</div>
+    <div style="margin-top: 8px">
+        <textarea id="title" style="box-sizing: border-box;text-align:center; width: 100%;height: 60px;font-size: 20px;padding: 10px;"></textarea>
+    </div>
+</div>
+
+<div style="width: 90%;height: 140px;margin-left: 5%;margin-top: 20px">
+    <div style="margin-top: 8px">作者:</div>
+    <div style="margin-top: 8px">
+        <input id="zuozhe" style="width: 100%;height: 40px;" />
+    </div>
+    <div style="margin-top: 8px">来源:</div>
+    <div style="margin-top: 8px">
+        <input id="laiyuan" style="width: 100%;height: 40px;" />
+    </div>
+</div>
+<div style="width: 90%;margin-left:5%;margin-top: 18px">
+    <textarea id="acontent" rows="20" cols="40">
+
+    </textarea>
+</div>
+
+<div id="xuanzetype" style="width: 90%;margin-left: 5%;margin-top:12px;margin-bottom: 1%;height: 60px">
+
+</div>
+
+
+</body>
+<script type="text/javascript">
+
+  function tijiaoarticle(userid){
+      alert('0000');
+     //发布文章
+      var o = {};
+        o.zuozhe = $('#zuozhe').val();
+        if(o.zuozhe == "" || o.zuozhe == null){
+            articlejs.MyToast("作者不能为空！")
+            return;
+        }
+        o.title= $('#title').val();
+        if(o.title == "" || o.title == null){
+            articlejs.MyToast("文章标题不能为空！")
+            return;
+        }
+        o.articletypeid = $('#articleType').val();
+        o.content = $('#acontent').val();
+        if(o.content == "" || o.content == null){
+            articlejs.MyToast("文章内容不能为空！")
+            return;
+        }
+        o.laiyuan = $('#laiyuan').val();
+        if(o.laiyuan == "" || o.laiyuan == null){
+            articlejs.MyToast("文章来源不能为空！")
+            return;
+        }
+
+        //userid
+        o.userid = userid;
+        var baseurl = getbaseurl();
+        $.ajax({
+            url: baseurl+"/smbaikeAPP/faBuArticleSubmit",
+            type: "Post",
+            data: JSON.stringify(o),
+            contentType:"application/json",
+            dataType: "JSON",
+            async: true,
+            success: function (d) {
+                if (d.code == 1) {
+                  articlejs.MyToast('发送文章失败！');
+                } else {
+                    alert(d.msg);
+                    window.location.reload();
+                }
+            },
+            error: function () {
+                articlejs.MyToast("操作异常，请联系客服:756358243");
+            }
+        });
+
+
+
+
+
+
+  }
+
+
+
+  function loadarticletype(){
+
+
+       var baseurl = getbaseurl();
+
+        $.ajax({
+        url: baseurl+"/smbaikeAPP/getArticleTypes",
+        type: "Post",
+        //data: JSON.stringify(o),
+        contentType:"application/json",
+        dataType: "JSON",
+        async: true,
+        success: function (obj) {
+           if(obj.code == 0){
+             var list = obj.rs;
+             //xuanzetype
+             var select = "";
+             select +='<select id="articleType" style="width: 80%;margin-right:20%;height: 48px;font-size: 24px">';
+             for(var i in list){
+                 select+='<option value="'+list[i].id+'">'+list[i].articletypename+'</option>';
+             }
+             select+='</select>';
+             $('#xuanzetype').html(select);
+           }else{
+
+           }
+
+        },
+        error: function () {
+            alert("操作异常，请联系客服");
+        }
+    });
+
+
+
+
+
+
+   }
+
+
+
+</script>
+
+</html>

@@ -63,7 +63,8 @@ function givetouserid(userid,answerid,username){
            if(rs.code == 0){
               document.getElementById("title").innerHTML = rs.rs.quetitle;
               //fabutime
-              document.getElementById("fabutime").innerHTML = rs.rs.quefabutime;
+              document.getElementById("fabutime").innerHTML = rs.rs.quefabutime.replace("T"," ").replace(".000+0000"," ");
+              //document.getElementById("fabutime").innerHTML = new Date();
               //asgbi
              document.getElementById("asgbi").innerHTML = rs.rs.queasgbi;
              //fabuzhe
@@ -115,7 +116,7 @@ function givetouserid(userid,answerid,username){
                   oneanwser +='<span style="display:inline-block;width:90%;word-wrap:break-word;white-space:normal;">'+rs.rs[i].answersendcont+'</span>';
                   oneanwser +='</div>';
                   oneanwser +='<div style="margin-top: 8px;">';
-                  oneanwser +='发送时间：<span>'+rs.rs[i].answersendtime+'</span>';
+                  oneanwser +='发送时间：<span>'+rs.rs[i].answersendtime.replace("T"," ").replace(".000+0000"," ")+'</span>';
                   oneanwser +='</div>';
 
                   var an = rs.rs[i].erjianswers;

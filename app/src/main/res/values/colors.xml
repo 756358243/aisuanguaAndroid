@@ -7,4 +7,5 @@
     <color name="main_black">#000000</color>
     <color name="bbutton_danger_disabled_edge">#00CC33</color>
     <color name="bbutton_danger">#FFFFFF</color>
+    <color name="main_top">#FFFAF0</color>
 </resources>

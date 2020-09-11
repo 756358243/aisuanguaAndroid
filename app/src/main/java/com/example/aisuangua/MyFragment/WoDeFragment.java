@@ -1,5 +1,6 @@
 package com.example.aisuangua.MyFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import com.example.aisuangua.LoginActivity;
 import com.example.aisuangua.MainActivity;
 import com.example.aisuangua.R;
 import com.example.aisuangua.andoridJs.ShouYeJs;
+import com.example.aisuangua.myactivitys.ArticleActivity;
 
 public class WoDeFragment extends Fragment {
     @Override
@@ -68,5 +70,16 @@ public class WoDeFragment extends Fragment {
             Intent intent = new Intent(v.getContext(), LoginActivity.class);
             startActivity(intent);
         }
+        //发布文章
+        @JavascriptInterface
+        public void fabuartile(){
+            Intent intent = new Intent(getActivity(), ArticleActivity.class);
+            SharedPreferences spf = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+            String user = spf.getString("loginuser", "");
+            intent.putExtra("user", user);
+            getContext().startActivity(intent);
+        }
+
+
     }
 }

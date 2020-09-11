@@ -7,15 +7,19 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/aiqing"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/aiqing"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".XuanShangActivity"
             android:label="@string/title_activity_xuan_shang"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".myactivitys.ArticleActivity"
+            android:label="@string/title_activity_fawen"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".LoginActivity"

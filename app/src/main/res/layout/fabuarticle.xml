@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/activity_top" />
+
+    <!--显示网页区域-->
+    <WebView
+        android:id="@+id/fabuarticlewebview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="38dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/cardview_light_background"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_fabuarticlesubmit"
+            android:text="发送"
+            android:textSize="16sp"
+            android:layout_gravity="bottom"
+            android:textColorHint="#b7b7b7"
+            android:textColor="@color/design_default_color_primary"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"/>
+    </LinearLayout>
+
+</RelativeLayout>
